@@ -1,13 +1,11 @@
-import { IMetaComponentBase } from "../interface";
+import { IMetaComponentBase } from ".";
 import { Strong } from "mdast";
 import React, { PropsWithChildren } from "react";
 
 
 const Component: React.FC<PropsWithChildren<IMetaComponentBase<Strong>>> = (props) => {
-  const { children } = props
-
   return (
-    <strong>
+    <strong className="font-semibold text-base">
       {props.children}
     </strong>
   )

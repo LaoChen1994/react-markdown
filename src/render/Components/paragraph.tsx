@@ -1,4 +1,4 @@
-import { IMetaComponentBase } from "../interface"
+import { IMetaComponentBase } from "."
 import { Paragraph as ParagraphType } from 'mdast'
 
 import { PropsWithChildren } from "react"
@@ -7,7 +7,7 @@ const Paragraph: React.FC<PropsWithChildren<IMetaComponentBase<ParagraphType>>> 
   const { children } = props;
 
   return (
-    <p>
+    <p className="text-base text-black">
       {children}
     </p>
   )

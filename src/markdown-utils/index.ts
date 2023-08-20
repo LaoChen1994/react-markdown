@@ -2,8 +2,10 @@ import {unified, Processor} from "unified";
 import {Content} from "mdast";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
-import remarkMDX from 'remark-mdx'
-
+import remarkMDX from 'remark-mdx';
+import formatTable from '../plugins/formatTable';
+import formatParagraph from '../plugins/formatParagraph'
+import formatListItem from '../plugins/formatListItem';
 
 class MDProcessor {
     private processor: Processor;
@@ -16,6 +18,9 @@ class MDProcessor {
     private init() {
         this.processor
             .use(remarkParse)
+            .use(formatTable)
+            .use(formatParagraph)
+            .use(formatListItem)
             .use(remarkMDX)
             .use(remarkGfm)
     }

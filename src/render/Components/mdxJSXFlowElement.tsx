@@ -1,6 +1,6 @@
 import { MdxJsxFlowElement as MdxJsxFlowElementType } from "mdast-util-mdx";
 import { PropsWithChildren, useMemo } from "react";
-import { IMetaComponentBase } from "../interface";
+import { IMetaComponentBase } from ".";
 import { useMDXContext } from "../react/context";
 
 
@@ -9,8 +9,6 @@ const MDXJSXFlowElement = (props: PropsWithChildren<IMetaComponentBase<MdxJsxFlo
   const { components } = useMDXContext();
 
   const Component = node.name ? components[node.name] : null
-
-  console.log('mdx ->', Component)
 
   if (!Component) return null;
 

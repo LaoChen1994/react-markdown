@@ -5,79 +5,9 @@ import processor from "./markdown-utils";
 import {ITree} from './render/interface';
 import Render from "./render/react";
 
-import ReactPicker from './components/react-picker'
-import {IOption, IValue} from "./components/react-picker/Column";
-
-const OptionsMap: Record<string, IOption[]> = {
-    title: [
-        {label: 'Mr.', value: 'Mr.'},
-        {label: 'Mrs.', value: 'Mrs.'},
-        {label: 'Ms.', value: 'Ms.'},
-        {label: 'Dr.', value: 'Dr.'}
-    ],
-    firstName: [
-        {
-            label: 'John',
-            value: 'John',
-        },
-
-        {
-            label: 'Micheal',
-            value: 'Micheal',
-        },
-        {
-            label: 'Elizabeth',
-            value: 'Elizabeth',
-        }
-    ],
-    secondName: [
-        {
-
-            label: 'Lennon',
-            value: 'Lennon',
-        },
-        {
-            label: 'Jackson',
-            value: 'Jackson',
-        },
-
-        {
-            label: 'Jordan',
-            value: 'Jordan',
-
-        },
-        {
-            label: 'Legend',
-            value: 'Legend',
-        },
-
-        {
-            label: 'Taylor',
-            value: 'Taylor',
-        }
-    ]
-}
-
-
 export default function App() {
     const [value, setValue] = React.useState("");
     const [tree, setTree] = React.useState<ITree>({} as ITree)
-    const ref = useRef<HTMLDivElement>(null)
-
-    const [valueGroups, setValueGroups] = useState({
-        title: 'Mr.',
-        firstName: 'John',
-        secondName: 'Lennon'
-    })
-
-    const [visible, setVisible] = useState(false)
-
-    const onPickerChange = (name: string, value: IValue) => {
-        setValueGroups({
-            ...valueGroups,
-            [name]: value
-        })
-    }
 
     const onChange = async (value: string | undefined = '') => {
         setValue(value)
@@ -87,13 +17,25 @@ export default function App() {
     }
 
     useEffect(() => {
-        onChange("**Hello world!!!** \n \n <Content title='我是Content' /> \n # 1  \n ## 2")
+        onChange(`|t1|t2|t3|
+        |---|---|---|
+        |a|b|c|
+        
+        - 1
+        - 2
+        - 3
+        - 4
+        
+        1. For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.
+        2. 2
+        3. 3
+        4. 4
+        
+        ![image](https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=465&dpr=1&s=none)`)
     }, [])
 
-    const content = useMemo(() => {
+    console.log(tree)
 
-        return Object.values(valueGroups).join(" ")
-    }, [valueGroups])
     return (
         <div className="container">
             <h2>MDEditor</h2>
@@ -103,21 +45,9 @@ export default function App() {
                 preview="edit"
             />
 
-            {/*<Render node={tree} />*/}
-
-            <button onClick={() => setVisible(true)}>open picker</button>
-
-            <div>
-                <strong>{content}</strong>
+            <div className="w-[600px] px-6">
+                <Render node={tree} />
             </div>
-
-            <ReactPicker
-                wheel='normal'
-                visible={visible}
-                optionGroups={OptionsMap}
-                valueGroups={valueGroups}
-                onChange={onPickerChange}
-            />
         </div>
     );
 }

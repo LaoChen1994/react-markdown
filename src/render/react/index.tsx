@@ -1,33 +1,41 @@
 import { ITree, IRoot } from "../interface";
-import * as DefaultComponent from "../Components";
+import DefaultComponent from "../Components";
 import Content from "../../components/Content";
-import { capitalizeFirstLetter } from "./utils";
 import { MDXContextProvider } from "./context";
+import { CSSProperties, useMemo } from "react";
 
-interface IRender {
-  node: ITree;
+import './index.css';
+
+interface IBaseProps {
+  className?: string;
+  style?: CSSProperties
+}
+
+interface IRender extends IBaseProps {
+  node: ITree | IRoot;
 }
 
 const Render: React.FC<IRender> = (props) => {
   const { node } = props;
 
-  const Component =
-    DefaultComponent[
-      capitalizeFirstLetter(node.type) as keyof typeof DefaultComponent
-    ];
-
+  const Component = useMemo(() => {
+    return DefaultComponent[node.type as keyof typeof DefaultComponent];
+  }, [node.type])
 
   if (!node.type) return null;
 
   if (node.type === "root") {
     return (
-      <div>
+      <>
         {node.children.map((child) => (
           <Render node={child} />
         ))}
-      </div>
+      </>
     );
   }
+
+  if (!Component) return null
+
 
   return (
     <MDXContextProvider
@@ -38,7 +46,7 @@ const Render: React.FC<IRender> = (props) => {
       }}
     >
       <Component node={node}>
-        {node.children && node.children.length
+        {('children' in node) && node.children.length
           ? node.children.map((child) => <Render node={child} />)
           : null}
       </Component>

@@ -1,4 +1,4 @@
-import { IMetaComponentBase } from "../interface";
+import { IMetaComponentBase } from ".";
 import { Text as TextType } from "mdast";
 import { PropsWithChildren } from "react";
 
